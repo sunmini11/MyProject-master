@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants">
+
+    <CheckBox
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:text=""
+        android:id="@+id/checkBox"
+        android:gravity="start"
+        android:layout_marginTop="15dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        />
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:id="@+id/photoView"
+        android:src="@mipmap/ic_launcher"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="272dp"
+            android:layout_height="wrap_content"
+            android:text=" img_xx"
+            android:id="@+id/imgTextView"
+            android:layout_marginTop="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="date time"
+            android:id="@+id/timestampTxt"
+            android:gravity="center"
+            android:layout_below="@+id/imgTextView"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="3dp" />
+
+    </LinearLayout>
+
+</LinearLayout>
