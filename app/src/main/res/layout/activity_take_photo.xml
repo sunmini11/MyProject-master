@@ -77,45 +77,47 @@
         android:layout_alignParentBottom="true"
         android:gravity="bottom|center_vertical"
         android:id="@+id/linearLayout2"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="5dp"
+        android:weightSum="1">
 
-        <Button
-            android:layout_width="wrap_content"
+        <ImageButton
+            android:layout_width="80dp"
             android:layout_height="40dp"
-            android:text="camera"
             android:id="@+id/fabcam"
             android:layout_alignParentBottom="true"
             android:layout_marginRight="3dp"
             android:background="@drawable/bg_rounded_corner"
             android:textColor="#ffffff"
             android:layout_marginLeft="1dp"
-            android:onClick="launchCamera" />
+            android:onClick="launchCamera"
+            android:src="@drawable/camera" />
+
+        <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:id="@+id/chooseBtn"
+            android:background="@drawable/bg_rounded_corner"
+            android:textColor="#ffffff"
+            android:nestedScrollingEnabled="false"
+            android:layout_gravity="bottom"
+            android:layout_marginRight="1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@+id/linearLayout2"
+            android:onClick="onClick"
+            android:src="@drawable/gallery"
+            android:layout_weight="6" />
 
     </LinearLayout>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="80dp"
         android:layout_height="40dp"
-        android:id="@+id/chooseBtn"
-        android:background="@drawable/bg_rounded_corner_cancel"
-        android:text="Choose from gallery"
-        android:textColor="#ffffff"
-        android:nestedScrollingEnabled="false"
-        android:layout_gravity="bottom"
-        android:layout_marginRight="1dp"
-        android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/linearLayout2"
-        android:onClick="onClick" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:text="send"
+        android:text="submit"
         android:id="@+id/fabok"
         android:layout_marginRight="5dp"
-        android:background="@drawable/bg_rounded_corner"
+        android:background="@drawable/bg_rounded_corner_cancel"
         android:textColor="#ffffff"
-        android:layout_alignTop="@+id/chooseBtn"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

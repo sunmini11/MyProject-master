@@ -60,8 +60,8 @@ public class MainActivity extends Activity {
         subjectSpinner = (Spinner) findViewById(R.id.subSpinner);
         submitBtn = (Button) findViewById(R.id.submitButton);
         takePhoto = (Button) dialog.findViewById(R.id.takePhotoBtn);
-        choosePhoto = (Button) dialog.findViewById(R.id.chooseGalBtn);
         cancel = (Button) dialog.findViewById(R.id.cancelBtn);
+        result = (Button)  dialog.findViewById(R.id.resultBtn);
 
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override

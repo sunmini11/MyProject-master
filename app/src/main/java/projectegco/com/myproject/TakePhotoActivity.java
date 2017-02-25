@@ -32,6 +32,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -96,7 +97,7 @@ public class TakePhotoActivity extends AppCompatActivity {
 
     ArrayList<Bitmap> filepath_array;
 
-    Button fabcam;
+    ImageButton fabcam;
     Button fabsend;
 
     int check = 0;
@@ -128,7 +129,7 @@ public class TakePhotoActivity extends AppCompatActivity {
 
         subTextView = (TextView) findViewById(R.id.subjectTxt);
         subTextView.setText(getSubject);
-        fabcam = (Button) findViewById(R.id.fabcam);
+        fabcam = (ImageButton) findViewById(R.id.fabcam);
         fabsend = (Button) findViewById(R.id.fabok);
 
         if (!hasCamera()) {
