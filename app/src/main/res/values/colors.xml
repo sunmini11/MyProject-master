@@ -5,6 +5,7 @@
     <color name="colorAccent">#EF5350</color>
     <color name="view_background">#e8ecfa</color>
     <color name="btn_bg">#009688</color>
+    <color name="btn_darkbg">#00796B</color>
     <color name="white">#ffffff</color>
     <color name="txt_font">#4e5572</color>
     <color name="action_bar">#212121</color>

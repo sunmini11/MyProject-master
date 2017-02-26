@@ -29,7 +29,8 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:weightSum="1">
 
             <CheckBox
                 android:layout_width="30dp"
@@ -49,7 +50,24 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="8dp"
-                android:layout_marginLeft="10dp" />
+                android:layout_marginLeft="10dp"
+                android:layout_weight="0.99" />
+
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:id="@+id/resultBtn"
+                android:text="Result"
+                android:background="@drawable/bg_rounded_corner_darkgreen"
+                android:textColor="#ffffff"
+                android:onClick="showResult" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="251dp"
+            android:layout_height="match_parent">
+
         </LinearLayout>
 
     </LinearLayout>
@@ -100,12 +118,12 @@
             android:textColor="#ffffff"
             android:nestedScrollingEnabled="false"
             android:layout_gravity="bottom"
-            android:layout_marginRight="1dp"
             android:layout_alignParentBottom="true"
             android:layout_toEndOf="@+id/linearLayout2"
             android:onClick="onClick"
             android:src="@drawable/gallery"
-            android:layout_weight="6" />
+            android:layout_weight="6"
+            android:layout_marginLeft="5dp" />
 
     </LinearLayout>
 

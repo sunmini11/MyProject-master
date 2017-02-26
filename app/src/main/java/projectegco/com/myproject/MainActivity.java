@@ -53,15 +53,15 @@ public class MainActivity extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
-        final Dialog dialog = new Dialog(MainActivity.this);
-        dialog.setTitle("Please Choose");
-        dialog.setContentView(R.layout.menu_dialog);
-
+//        final Dialog dialog = new Dialog(MainActivity.this);
+//        dialog.setTitle("Please Choose");
+//        dialog.setContentView(R.layout.menu_dialog);
+//
         subjectSpinner = (Spinner) findViewById(R.id.subSpinner);
         submitBtn = (Button) findViewById(R.id.submitButton);
-        takePhoto = (Button) dialog.findViewById(R.id.takePhotoBtn);
-        cancel = (Button) dialog.findViewById(R.id.cancelBtn);
-        result = (Button)  dialog.findViewById(R.id.resultBtn);
+//        takePhoto = (Button) dialog.findViewById(R.id.takePhotoBtn);
+//        cancel = (Button) dialog.findViewById(R.id.cancelBtn);
+//        result = (Button)  dialog.findViewById(R.id.resultBtn);
 
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,12 +70,12 @@ public class MainActivity extends Activity {
                 selectedSubject = subjectSpinner.getSelectedItem().toString();
                 idselectedSubject = getResources().getStringArray(R.array.subject_arrays_value)[subjectSpinner.getSelectedItemPosition()];
 
-                Toast.makeText(MainActivity.this, "Subject: " + selectedSubject,
+                Toast.makeText(MainActivity.this, "Subject: \n" + selectedSubject,
                         Toast.LENGTH_SHORT).show();
                 System.out.println("subject: "+selectedSubject+" "+idselectedSubject);
 
                 MyCommand myCommand = new MyCommand(getApplicationContext());
-                String url = "http://192.168.1.128/upload/subjectname.php";
+                String url = "http://192.168.1.149/upload/subjectname.php";
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -107,36 +107,42 @@ public class MainActivity extends Activity {
                 subjectDataSource.open();
                 subject = subjectDataSource.createSubject(selectedSubject,idselectedSubject);
                 subjectDataSource.open();
-             //   System.out.println("xxxx: "+subject.getId()+subject.getSubjectId()+subject.getSubjectName());
 
-                dialog.show();
-            }
-        });
-
-        takePhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, TakePhotoActivity.class);
                 intent.putExtra(TakePhotoActivity.selectedSubject,selectedSubject);
                 intent.putExtra(TakePhotoActivity.idselectedSubject,idselectedSubject);
                 startActivity(intent);
+
+             //   System.out.println("xxxx: "+subject.getId()+subject.getSubjectId()+subject.getSubjectName());
+
+//                dialog.show();
             }
         });
 
-        result.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, ResultExcelActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
+//        takePhoto.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MainActivity.this, TakePhotoActivity.class);
+//                intent.putExtra(TakePhotoActivity.selectedSubject,selectedSubject);
+//                intent.putExtra(TakePhotoActivity.idselectedSubject,idselectedSubject);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        result.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MainActivity.this, ResultExcelActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        cancel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                dialog.dismiss();
+//            }
+//        });
     }
 
 

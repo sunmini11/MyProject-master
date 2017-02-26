@@ -16,6 +16,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -181,60 +182,61 @@ public class TakePhotoActivity extends AppCompatActivity {
 
                     System.out.println(j + "xxxxcheck = " + data.get(j).isSelected());
                     if (data.get(j).isSelected()) {
-                        count = count+1;
+                            count = count + 1;
 
-                        dialog.setTitle("Process dialog");
-                        dialog.setContentView(R.layout.wait_dialog);
-                        dialog.show();
-                        dialog.setCanceledOnTouchOutside(false);
+                            dialog.setTitle("Process dialog");
+                            dialog.setContentView(R.layout.wait_dialog);
+                            dialog.show();
+                            dialog.setCanceledOnTouchOutside(false);
 
-                        System.out.println("xxxxdata " + data.get(j).getImgpath());
-                        //upload to server
+                            System.out.println("xxxxdata " + data.get(j).getImgpath());
+                            //upload to server
                             try {
-                                Bitmap bitmap = PhotoLoader.init().from(data.get(j).getImgpath()).requestSize(512, 512).getBitmap();
+                                Bitmap bitmap = PhotoLoader.init().from(data.get(j).getImgpath()).requestSize(2048, 2048).getBitmap();
                                 final String encodedString = ImageBase64.encode(bitmap);
-                                String url = "http://192.168.1.128/upload/upload.php";
+                                String url = "http://192.168.1.149/upload/upload.php";
 
-                                System.out.println("uu "+j);
+                                System.out.println("uu " + j);
 
                                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                                     @Override
                                     public void onResponse(String response) {
-                                        check = check+1;
-                                        System.out.println("uu check "+check);
-                                        System.out.println("uu response "+response);
+                                        check = check + 1;
+                                        System.out.println("uu check " + check);
+                                        System.out.println("uu response " + response);
 
 //                                        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
 
-                                        if (check==count){
-                                            System.out.println("uu check STOP "+check);
-
-                                            Toast.makeText(getApplicationContext(), response+" "+count+" photos", Toast.LENGTH_SHORT).show();
-                                            AlertDialog.Builder builder = new AlertDialog.Builder(TakePhotoActivity.this);
-                                            builder.setMessage("Response: "+response);
-                                            builder.setNegativeButton("Close", null);
-                                            builder.create();
-                                            builder.show();
+                                        if (check == count) {
+                                            System.out.println("uu check STOP " + check);
+//                                            Toast.makeText(getApplicationContext(), response+" "+count+" photos", Toast.LENGTH_SHORT).show();
+//                                            AlertDialog.Builder builder = new AlertDialog.Builder(TakePhotoActivity.this);
+//                                            builder.setMessage("Response: "+response);
+//                                            builder.setNegativeButton("Close", null);
+//                                            builder.create();
+//                                            builder.show();
                                             flag = "true";
-                                            System.out.println("uu FLAG:: "+flag);
+                                            System.out.println("uu FLAG:: " + flag);
 
-                                    ////////////////////////////////Connect MATLAB and send 'flag' to PHP///////////////////////////////////////////////////
-                                            String url = "http://192.168.1.128/upload/CallConnectMatlab.php";
+
+                                            ////////////////////////////////Connect MATLAB and send 'flag' to PHP///////////////////////////////////////////////////
+                                            String url = "http://192.168.1.149/upload/CallConnectMatlab.php";
                                             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                                                 @Override
                                                 public void onResponse(String response) {
-                                                Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
-                                                    System.out.println("uu flag heyy "+response);
+//                                                Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
+                                                    System.out.println("uu flag heyy " + response);
                                                 }
                                             }, new Response.ErrorListener() {
                                                 @Override
                                                 public void onErrorResponse(VolleyError error) {
                                                     AlertDialog.Builder builder = new AlertDialog.Builder(TakePhotoActivity.this);
-                                                    System.out.println("uu flag error "+error);
-                                                    builder.setMessage("Error flag: "+error);
-                                                    builder.setNegativeButton("Close",null);
+                                                    System.out.println("uu flag error " + error);
+                                                    builder.setMessage("Error flag: " + error);
+                                                    builder.setNegativeButton("Close", null);
                                                     builder.create();
                                                     builder.show();
+
 
 //                                                    if (error instanceof TimeoutError || error instanceof NoConnectionError) {
 //                                                        System.out.println("uu flag heyy 1st");
@@ -254,7 +256,7 @@ public class TakePhotoActivity extends AppCompatActivity {
                                                     Map<String, String> params = new HashMap<>();
                                                     //Add data to be send to php server
                                                     params.put("checkallphoto", flag);
-                                                    System.out.println("flag status = "+flag);
+                                                    System.out.println("flag status = " + flag);
                                                     return params;
                                                 }
                                             };
@@ -267,13 +269,33 @@ public class TakePhotoActivity extends AppCompatActivity {
 
                                             myFlag.add(stringRequest);
                                             myFlag.execute();
-                                    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                                            final Handler handler = new Handler();
+                                            handler.postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    dialog.dismiss();
+                                                    handler.postDelayed(this, 30000);
+                                                }
+                                            }, 30000);
+
+                                            new Handler().postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    AlertDialog.Builder builder = new AlertDialog.Builder(TakePhotoActivity.this);
+                                                    builder.setMessage("DONE!! Touch 'Result' button to check the result.");
+                                                    builder.setNegativeButton("Close",null);
+                                                    builder.create();
+                                                    builder.show();
+                                                }
+                                            }, 30000);
 
 
+                                            ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                                            dialog.dismiss();
+
                                         }
-                                        }
+                                    }
                                 }
                                         , new Response.ErrorListener() {
                                     @Override
@@ -303,19 +325,18 @@ public class TakePhotoActivity extends AppCompatActivity {
                                 dialog.dismiss();
                                 AlertDialog.Builder builder = new AlertDialog.Builder(TakePhotoActivity.this);
                                 builder.setMessage("Error while loading image file not found. Please try again.");
-                                builder.setNegativeButton("Close",null);
+                                builder.setNegativeButton("Close", null);
                                 builder.create();
                                 builder.show();
                             }
                         }
-
-                    }
+                }
 
                 myCommand.execute();
+
+
                 System.out.println("uuunder execute");
 
-
-//                dialog.dismiss();
                 System.out.println("uu ================uu flag==============");
 //                if(flag == "true"){
 //                    String url = "http://192.168.1.143/upload/CallConnectMatlab.php";
@@ -351,7 +372,7 @@ public class TakePhotoActivity extends AppCompatActivity {
 //                }
 
 
-                }
+            }
         });
     }
 
@@ -381,7 +402,7 @@ public class TakePhotoActivity extends AppCompatActivity {
         try {
                 thumbnail = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                thumbnail.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+//                thumbnail.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
                 imageurl = getRealPathFromURI(imageUri);
 
         } catch (Exception e) {
@@ -421,23 +442,32 @@ public class TakePhotoActivity extends AppCompatActivity {
             currentDateTime = dateFormat.format(new Date());
 
             // put value into Photo table
-            photoDataSource.open();
-            photo1 = photoDataSource.createPhoto(picturePath, getSubjectID, currentDateTime);
-            photoArrayAdapter.add(photo1);
-            photoArrayAdapter.notifyDataSetChanged();
+            if (picturePath == null){
+                AlertDialog.Builder builder = new AlertDialog.Builder(TakePhotoActivity.this);
+                builder.setMessage("This photo isn't exist in memory.");
+                builder.setNegativeButton("Close",null);
+                builder.create();
+                builder.show();
+            }else{
+                photoDataSource.open();
+                photo1 = photoDataSource.createPhoto(picturePath, getSubjectID, currentDateTime);
+                photoArrayAdapter.add(photo1);
+                photoArrayAdapter.notifyDataSetChanged();
+            }
+
         }
 
     }
 
 
-    public Uri getImageUri(Context inContext, Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
-        System.out.println("xxpathparse: " + Uri.parse(path));
-        System.out.println("xxpath..: " + path);
-        return Uri.parse(path);
-    }
+//    public Uri getImageUri(Context inContext, Bitmap inImage) {
+//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+//        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+//        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+//        System.out.println("xxpathparse: " + Uri.parse(path));
+//        System.out.println("xxpath..: " + path);
+//        return Uri.parse(path);
+//    }
 
     public String getRealPathFromURI(Uri uri) {
 //        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
@@ -464,6 +494,12 @@ public class TakePhotoActivity extends AppCompatActivity {
         startActivityForResult(intent, REQUEST_CODE);
     }
 
+    public void showResult(View view){
+
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://192.168.1.149/upload/QueryDB.php"));
+        startActivity(browserIntent);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -472,37 +508,37 @@ public class TakePhotoActivity extends AppCompatActivity {
             finish();
         }
         if (id == R.id.deletebtn){
-            for (int a = 0; a < data.size(); a++) {
-                if (data.get(a).isSelected()) {
+
                     AlertDialog.Builder builder = new AlertDialog.Builder(TakePhotoActivity.this); // where dialog appear
                     builder.setMessage("Do you want to delete the photos?");
                     builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         // when ans = yes do this
                         public void onClick(DialogInterface dialogInterface, int i) {
+                            for (int a = 0; a < data.size(); a++) {
+                                if (data.get(a).isSelected()) {
+                                    photoDataSource.open();
 
-                            photoDataSource.open();
-
-                            for (int j = 0; j < data.size(); j++) {
-                                System.out.println(j + "xxxxcheck = " + data.get(j).isSelected());
-                                if (data.get(j).isSelected()) {
-                                    photo1 = photoArrayAdapter.getItem(j);
-                                    photoDataSource.deleteResult(data.get(j));
+                                    for (int j = 0; j < data.size(); j++) {
+                                        System.out.println(j + "xxxxcheck = " + data.get(j).isSelected());
+                                        if (data.get(j).isSelected()) {
+                                            photo1 = photoArrayAdapter.getItem(j);
+                                            photoDataSource.deleteResult(data.get(j));
+                                        }
+                                    }
+                                    data = photoDataSource.getAllPhotos(getSubjectID);
+                                    photoArrayAdapter = new CustomAdapter(TakePhotoActivity.this, 0, data);
+                                    listView.setAdapter(photoArrayAdapter);
+                                    Toast.makeText(TakePhotoActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
+                                    onPause();
                                 }
                             }
-                            data = photoDataSource.getAllPhotos(getSubjectID);
-                            photoArrayAdapter = new CustomAdapter(TakePhotoActivity.this, 0, data);
-                            listView.setAdapter(photoArrayAdapter);
-                            Toast.makeText(TakePhotoActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
-                            onPause();
                         }
                     });
                     builder.setNegativeButton("Cancel", null);
                     builder.create();
                     builder.show();
                 }
-            }
-        }
         return super.onOptionsItemSelected(item);
     }
 

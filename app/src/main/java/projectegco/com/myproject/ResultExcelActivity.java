@@ -1,5 +1,7 @@
 package projectegco.com.myproject;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -13,6 +15,10 @@ public class ResultExcelActivity extends AppCompatActivity  {
         setTitle("Result");
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //set back button
+
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://192.168.1.128/upload/QueryDB.php"));
+        startActivity(browserIntent);
+
     }
 
     @Override
